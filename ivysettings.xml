@@ -1,0 +1,19 @@
+<ivysettings>
+    <settings defaultResolver="default"/>
+    <property name="local.m2.repo" value="${user.home}/.m2/repository"/>
+    <property name="ivy-pattern"
+              value="[organisation]/[module]/[revision]/[module]-[revision](-[classifier]).pom"
+              override="false"/>
+    <property name="artifact-pattern"
+              value="[organisation]/[module]/[revision]/[module]-[revision](-[classifier]).[ext]"
+              override="false"/>
+    <resolvers>
+        <chain name="default">
+            <filesystem name="local-maven2" m2compatible="true">
+                <ivy pattern="${local.m2.repo}/${ivy-pattern}"/>
+                <artifact pattern="${local.m2.repo}/${artifact-pattern}"/>
+            </filesystem>
+            <ibiblio name="central" m2compatible="true"/>
+        </chain>
+    </resolvers>
+</ivysettings>
