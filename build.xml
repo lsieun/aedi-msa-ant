@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="aedi-msa" default="patch" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="antlib:org.apache.ivy.ant ">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="antlib:org.apache.ivy.ant">
     <description>
         For the things we have to learn before we can do them, we learn by doing them. ― Aristotle
     </description>
@@ -14,7 +14,7 @@
 
     <property name="build.classes.dir" location="${build.dir}/classes"/>
 
-    <target name="init" description="==>  Create init Directory">
+    <target name="init" description="==&gt;  Create init Directory">
         <mkdir dir="${lib.dir}"/>
         <mkdir dir="${build.classes.dir}"/>
     </target>
@@ -22,6 +22,10 @@
     <target name="ivy-resolve" depends="init">
         <ivy:resolve/>
         <ivy:retrieve sync="false" type="jar"/>
+    </target>
+
+    <target name="ivy-report" depends="ivy-resolve">
+        <ivy:report todir="${build.dir}"/>
     </target>
 
     <target name="prepare-lib" depends="ivy-resolve">
@@ -38,10 +42,10 @@
     </target>
 
     <path id="compile.classpath">
-        <fileset dir="${lib.dir}" includes="*.jar"/>
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
     </path>
 
-    <target name="compile" depends="copy-idea-jar" description="==>  Compile Source Code">
+    <target name="compile" depends="copy-idea-jar" description="==&gt;  Compile Source Code">
         <javac srcdir="${src.dir}" destdir="${build.classes.dir}" includeantruntime="false">
             <classpath refid="compile.classpath"/>
         </javac>
@@ -52,14 +56,14 @@
         <pathelement location="${build.classes.dir}"/>
     </path>
 
-    <target name="execute" depends="compile" description="==>  Execute Code">
+    <target name="execute" depends="compile" description="==&gt;  Execute Code">
         <delete dir="${build.classes.dir}/com/"/>
         <java classname="lsieun.aedi.Main" classpathref="build.classpath">
             <arg value="${jar.name}"/>
         </java>
     </target>
 
-    <target name="patch" depends="execute" description="==>  Patch Jar File">
+    <target name="patch" depends="execute" description="==&gt;  Patch Jar File">
         <delete file="${build.classes.dir}/${jar.name}" failonerror="false"/>
         <copy file="${lib.dir}/${jar.name}" todir="${build.classes.dir}" force="true"/>
         <exec executable="jar" dir="${build.classes.dir}">
@@ -71,16 +75,16 @@
         <copy file="${build.classes.dir}/${jar.name}" todir="${software.home.dir}/lib/"/>
     </target>
 
-    <target name="clean" depends="init" description="==>  Clean Directories">
+    <target name="clean" depends="init" description="==&gt;  Clean Directories">
         <delete dir="${build.dir}"/>
         <delete dir="${lib.dir}" excludes="${jar.name}"/>
     </target>
 
-    <target name="clean-cache" description="==>  Clean Ivy Cache">
+    <target name="clean-cache" description="==&gt;  Clean Ivy Cache">
         <ivy:cleancache/>
     </target>
 
-    <target name="clean-all" description="==>  Clean All (directories and cache)">
+    <target name="clean-all" description="==&gt;  Clean All (directories and cache)">
         <antcall target="clean"/>
         <antcall target="clean-cache"/>
     </target>

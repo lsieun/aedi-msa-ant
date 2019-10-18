@@ -29,5 +29,7 @@ hs_err_pid*
 *.kotlin_module
 target/
 lib/
+build/
+dist/
 .*
 !.gitignore
