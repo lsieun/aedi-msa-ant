@@ -36,8 +36,6 @@ public class Main {
 
         RegexUtils.filter(list, path_regex_array);
 
-        List<lsieun.asm.adapter.find.Result> resultList = new ArrayList<>();
-
         Iterator<String> it = list.iterator();
         while (it.hasNext()) {
             String item = it.next();
